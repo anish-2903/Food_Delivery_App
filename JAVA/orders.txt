@@ -1,0 +1,2 @@
+Name: f1, Quantity: 5, Total Price: 440.0
+Name: f2, Quantity: 5, Total Price: 500.0

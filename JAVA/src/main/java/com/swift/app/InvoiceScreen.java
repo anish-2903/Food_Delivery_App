@@ -43,10 +43,8 @@ public class InvoiceScreen extends JFrame {
         orderArea.setText(loadOrders());
         panel.add(new JScrollPane(orderArea));
 
-        // Total bill with GST
-        double gst = (total * 0.18);
-        double totalWithGST = total + gst;
-        JLabel totalLabel = new JLabel("Total Bill (including 18% GST): " + totalWithGST);
+        // Total Bill
+        JLabel totalLabel = new JLabel("Total Bill (including 18% GST): " + total);
         panel.add(totalLabel);
 
         // Thank you message
@@ -99,7 +97,7 @@ public class InvoiceScreen extends JFrame {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(", "); // Split line by comma and space
-                String totalString = parts[2].split(": ")[1]; // Extract total price string
+                String totalString = (parts[2].split(": "))[1]; // Extract total price string
                 double totalPrice = Double.parseDouble(totalString); // Parse total price
                 total += totalPrice; // Add total price to total bill
             }
@@ -114,12 +112,12 @@ public class InvoiceScreen extends JFrame {
 
 
 
-//    public static void main(String[] args) {
-//        // Create and show the invoice screen
-//        SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-//                new InvoiceScreen().setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String[] args) {
+        // Create and show the invoice screen
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new InvoiceScreen().setVisible(true);
+            }
+        });
+    }
 }
