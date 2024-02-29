@@ -1,8 +1,0 @@
-Serial ID: 1
-Name: f1
-Price: 88
-
-Serial ID: 2
-Name: f2
-Price: 100
-
