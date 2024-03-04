@@ -64,8 +64,24 @@ public class OrderingScreen extends JFrame {
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Get serial number and quantity entered by the user
-                int serialNo = Integer.parseInt(serialNoField.getText());
-                int quantity = Integer.parseInt(quantityField.getText());
+                String serialNoText = serialNoField.getText().trim();
+                String quantityText = quantityField.getText().trim();
+
+                // Check if any field is empty
+                if (serialNoText.isEmpty() || quantityText.isEmpty()) {
+                    JOptionPane.showMessageDialog(OrderingScreen.this, "Please enter both serial number and quantity.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return; // Exit the method if any field is empty
+                }
+
+                // Parse the input to integers
+                int serialNo = 0, quantity = 0;
+                try {
+                    serialNo = Integer.parseInt(serialNoText);
+                    quantity = Integer.parseInt(quantityText);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(OrderingScreen.this, "Invalid input for serial number or quantity.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return; // Exit the method if input cannot be parsed to integers
+                }
 
                 // Find the menu item corresponding to the selected serial number
                 MenuItem menuItem = menuList.findMenuItemBySerialNo(serialNo);
@@ -91,6 +107,7 @@ public class OrderingScreen extends JFrame {
                 }
             }
         });
+
 
 
         // Payment button

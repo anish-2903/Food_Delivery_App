@@ -73,15 +73,22 @@ public class CustomerLoginScreen extends JFrame {
                 String phone = phoneField.getText();
                 String address = addressField.getText();
 
-                // Save details to file
-                saveCustomerData(username, password, email, phone, address);
+                // Handle the no input case
+                if (username.isEmpty() || password.isEmpty() || email.isEmpty()
+                        || phone.isEmpty() || address.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Empty fields! Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                }  else {
 
-                // Open OrderOptionsScreen after successful login
-                OrderOptionsScreen orderOptionsScreen = new OrderOptionsScreen();
-                orderOptionsScreen.setVisible(true);
+                    // Save details to file
+                    saveCustomerData(username, password, email, phone, address);
 
-                // Dispose of CustomerLoginScreen
-                dispose();
+                    // Open OrderOptionsScreen after successful login
+                    OrderOptionsScreen orderOptionsScreen = new OrderOptionsScreen();
+                    orderOptionsScreen.setVisible(true);
+
+                    // Dispose of CustomerLoginScreen
+                    dispose();
+                }
             }
         });
         panel.add(loginButton);

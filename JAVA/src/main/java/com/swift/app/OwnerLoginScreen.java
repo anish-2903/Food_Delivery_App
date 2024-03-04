@@ -65,15 +65,21 @@ public class OwnerLoginScreen extends JFrame {
                 String email = emailField.getText();
                 String phone = phoneField.getText();
 
-                // Save details to file
-                saveOwnerData(username, password, email, phone);
+                // Handle the case when no input is given
+                if (username.isEmpty() || password.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Empty fields! Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
 
-                // Open OrderOptionsScreen after successful login
-                AddMenuItemScreen addMenuItemScreen = new AddMenuItemScreen();
-                addMenuItemScreen.setVisible(true);
+                    // Save details to file
+                    saveOwnerData(username, password, email, phone);
 
-                // Dispose of OwnerLoginScreen
-                dispose();
+                    // Open OrderOptionsScreen after successful login
+                    AddMenuItemScreen addMenuItemScreen = new AddMenuItemScreen();
+                    addMenuItemScreen.setVisible(true);
+
+                    // Dispose of OwnerLoginScreen
+                    dispose();
+                }
             }
         });
         panel.add(loginButton);

@@ -39,26 +39,31 @@ public class AddMenuItemScreen extends JFrame {
                 String name = nameField.getText();
                 String price = priceField.getText();
 
-                // Add menu item to file
-                addMenuItemToFile(name, price);
+                if (name.isEmpty() || price.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Empty Fields ! Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
 
-                // Increment serial ID
-                serialId++;
+                    // Add menu item to file
+                    addMenuItemToFile(name, price);
 
-                // Clear text fields
-                nameField.setText("");
-                priceField.setText("");
+                    // Increment serial ID
+                    serialId++;
 
-                // Ask for adding more items
-                int option = JOptionPane.showConfirmDialog(AddMenuItemScreen.this, "Do you want to add more items?", "Add More Items", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.NO_OPTION) {
-                    // If user clicks "No", dispose of AddMenuItemScreen
-                    dispose();
-                    // Save menu items to file
-                    saveMenuItems();
-                    // Open MainScreen
-                    MainScreen mainScreen = new MainScreen();
-                    mainScreen.setVisible(true);
+                    // Clear text fields
+                    nameField.setText("");
+                    priceField.setText("");
+
+                    // Ask for adding more items
+                    int option = JOptionPane.showConfirmDialog(AddMenuItemScreen.this, "Do you want to add more items?", "Add More Items", JOptionPane.YES_NO_OPTION);
+                    if (option == JOptionPane.NO_OPTION) {
+                        // If user clicks "No", dispose of AddMenuItemScreen
+                        dispose();
+                        // Save menu items to file
+                        saveMenuItems();
+                        // Open MainScreen
+                        MainScreen mainScreen = new MainScreen();
+                        mainScreen.setVisible(true);
+                    }
                 }
             }
         });
