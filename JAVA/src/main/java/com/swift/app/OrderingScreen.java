@@ -1,10 +1,10 @@
 package main.java.com.swift.app;
 
-import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.Scanner;
 
 public class OrderingScreen extends JFrame {
     private static final String MENU_ITEMS_FILE = "menu_items.txt";
@@ -108,8 +108,6 @@ public class OrderingScreen extends JFrame {
             }
         });
 
-
-
         // Payment button
         JButton paymentButton = new JButton("Proceed to Payment");
         paymentButton.addActionListener(new ActionListener() {
@@ -132,7 +130,13 @@ public class OrderingScreen extends JFrame {
     // Method to load menu items from file into MenuLinkedList
     private MenuLinkedList loadMenuItems() {
         MenuLinkedList menuList = new MenuLinkedList();
-        try (Scanner scanner = new Scanner(new File(MENU_ITEMS_FILE))) {
+        try {
+            File menuFile = new File(MENU_ITEMS_FILE);
+            if (!menuFile.exists()) {
+                // Create a default menu items file with some entries
+                createDefaultMenuItemsFile();
+            }
+            Scanner scanner = new Scanner(menuFile);
             while (scanner.hasNextLine()) {
                 int serialId = Integer.parseInt(scanner.nextLine().split(": ")[1]);
                 String name = scanner.nextLine().split(": ")[1];
@@ -143,11 +147,32 @@ public class OrderingScreen extends JFrame {
                 // Skip the empty line between menu items
                 scanner.nextLine();
             }
-        } catch (FileNotFoundException e) {
+            scanner.close();
+        } catch (IOException e) {
             e.printStackTrace();
             return null; // Return null on error
         }
         return menuList;
+    }
+
+    // Method to create a default menu items file with some entries
+    private void createDefaultMenuItemsFile() throws IOException {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(MENU_ITEMS_FILE))) {
+            writer.println("Serial ID: 1");
+            writer.println("Name: Burger");
+            writer.println("Price: 40.0");
+            writer.println(); //
+
+            writer.println("Serial ID: 2");
+            writer.println("Name: Cake");
+            writer.println("Price: 400.0");
+            writer.println(); //
+
+            writer.println("Serial ID: 3");
+            writer.println("Name: Fried Rice");
+            writer.println("Price: 80.0");
+            writer.println(); //
+        }
     }
 
 //    public static void main(String[] args) {

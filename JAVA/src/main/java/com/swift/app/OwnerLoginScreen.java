@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.io.*;
 
 public class OwnerLoginScreen extends JFrame {
-    private static final String OWNER_DATA_FILE = "owner_data.txt";
+//    private static final String OWNER_DATA_FILE = "owner_data.txt";
 
     public OwnerLoginScreen() {
         setTitle("Owner Login");
@@ -69,16 +69,17 @@ public class OwnerLoginScreen extends JFrame {
                 if (username.isEmpty() || password.isEmpty() || email.isEmpty() || phone.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Empty fields! Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
+                    OwnerAuthentication authentication = new OwnerAuthentication();
+                    if (authentication.authenticate(username, password)) {
+                        // Open AddMenuItemScreen after successful login
+                        AddMenuItemScreen addMenuItemScreen = new AddMenuItemScreen();
+                        addMenuItemScreen.setVisible(true);
 
-                    // Save details to file
-                    saveOwnerData(username, password, email, phone);
-
-                    // Open OrderOptionsScreen after successful login
-                    AddMenuItemScreen addMenuItemScreen = new AddMenuItemScreen();
-                    addMenuItemScreen.setVisible(true);
-
-                    // Dispose of OwnerLoginScreen
-                    dispose();
+                        // Dispose of OwnerLoginScreen
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Wrong username/password!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
@@ -86,6 +87,46 @@ public class OwnerLoginScreen extends JFrame {
 
         // Add panel to the frame
         add(panel);
+    }
+//        public static void main(String[] args) {
+//        // Create and show the owner login screen
+//        SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//                new OwnerLoginScreen().setVisible(true);
+//            }
+//        });
+//    }
+}
+
+class OwnerAuthentication {
+    private static final String OWNER_DATA_FILE = "owner_data.txt";
+
+    public boolean authenticate(String username, String password) {
+        File file = new File(OWNER_DATA_FILE);
+
+        if (!file.exists()) {
+            // If the file does not exist, save the owner data and return true
+            saveOwnerData(username, password, "", "");
+            return true;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("Username: " + username)) {
+                    line = reader.readLine(); // Read next line (password)
+                    if (line.startsWith("Password: " + password)) {
+                        return true; // Username and password match
+                    } else {
+                        return false; // Password does not match
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error reading owner data!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return false; // Username not found
     }
 
     // Method to save owner details to file
@@ -99,13 +140,4 @@ public class OwnerLoginScreen extends JFrame {
             e.printStackTrace();
         }
     }
-
-//    public static void main(String[] args) {
-//        // Create and show the owner login screen
-//        SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-//                new OwnerLoginScreen().setVisible(true);
-//            }
-//        });
-//    }
 }

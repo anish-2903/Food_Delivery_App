@@ -10,6 +10,9 @@ public class AddMenuItemScreen extends JFrame {
     private int serialId = 1; // Initial serial ID for menu items
 
     public AddMenuItemScreen() {
+        // Initialize menu items file with default values
+        initializeMenuFile();
+
         setTitle("Add Menu Items");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Dispose when closed
         setSize(400, 200);
@@ -86,6 +89,30 @@ public class AddMenuItemScreen extends JFrame {
 
         // Add panel to the frame
         add(panel);
+
+    }
+
+    // Method to initialize menu items file with default values
+    private void initializeMenuFile() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(MENU_FILE))) {
+            // Write default menu items
+            writer.println("Serial ID: 1");
+            writer.println("Name: Burger");
+            writer.println("Price: 40.0");
+            writer.println();
+
+            writer.println("Serial ID: 2");
+            writer.println("Name: Cake");
+            writer.println("Price: 400.0");
+            writer.println();
+
+            writer.println("Serial ID: 3");
+            writer.println("Name: Fried Rice");
+            writer.println("Price: 80.0");
+            writer.println();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Method to add menu item to file
@@ -104,8 +131,7 @@ public class AddMenuItemScreen extends JFrame {
     private void saveMenuItems() {
         // Nothing needed here as menu items are already saved while adding
     }
-
-//    public static void main(String[] args) {
+//    public static void main(String[] args){
 //        // Create and show the add menu item screen
 //        SwingUtilities.invokeLater(new Runnable() {
 //            public void run() {

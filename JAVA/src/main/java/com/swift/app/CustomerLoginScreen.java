@@ -77,17 +77,18 @@ public class CustomerLoginScreen extends JFrame {
                 if (username.isEmpty() || password.isEmpty() || email.isEmpty()
                         || phone.isEmpty() || address.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Empty fields! Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
-                }  else {
+                } else {
+                    Authentication authentication = new Authentication();
+                    if (authentication.authenticate(username, password, email, phone, address)) {
+                        // Open OrderOptionsScreen after successful login
+                        OrderOptionsScreen orderOptionsScreen = new OrderOptionsScreen();
+                        orderOptionsScreen.setVisible(true);
 
-                    // Save details to file
-                    saveCustomerData(username, password, email, phone, address);
-
-                    // Open OrderOptionsScreen after successful login
-                    OrderOptionsScreen orderOptionsScreen = new OrderOptionsScreen();
-                    orderOptionsScreen.setVisible(true);
-
-                    // Dispose of CustomerLoginScreen
-                    dispose();
+                        // Dispose of CustomerLoginScreen
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Wrong username/password!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
@@ -95,6 +96,46 @@ public class CustomerLoginScreen extends JFrame {
 
         // Add panel to the frame
         add(panel);
+    }
+//    public static void main(String[] args) {
+//        // Create and show the customer login screen
+//        SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//                new CustomerLoginScreen().setVisible(true);
+//            }
+//        });
+//    }
+}
+
+class Authentication {
+    private static final String CUSTOMER_DATA_FILE = "customer_data.txt";
+
+    public boolean authenticate(String username, String password, String email, String phone, String address) {
+        File file = new File(CUSTOMER_DATA_FILE);
+
+        if (!file.exists()) {
+            // If the file does not exist, save the user data and return true
+            saveCustomerData(username, password, email, phone, address);
+            return true;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("Username: " + username)) {
+                    line = reader.readLine(); // Read next line (password)
+                    if (line.startsWith("Password: " + password)) {
+                        return true; // Username and password match
+                    } else {
+                        return false; // Password does not match
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error reading user data!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return false; // Username not found
     }
 
     // Method to save customer details to file
@@ -109,13 +150,4 @@ public class CustomerLoginScreen extends JFrame {
             e.printStackTrace();
         }
     }
-
-//    public static void main(String[] args) {
-//        // Create and show the customer login screen
-//        SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-//                new CustomerLoginScreen().setVisible(true);
-//            }
-//        });
-//    }
 }
