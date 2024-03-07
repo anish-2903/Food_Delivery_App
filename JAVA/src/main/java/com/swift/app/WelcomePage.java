@@ -8,11 +8,11 @@ import javax.imageio.ImageIO;
 
 public class WelcomePage extends JFrame {
     public WelcomePage() {
-        setTitle("Welcome to Demo App");
+        setTitle("Welcome to Food Delivery App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
         setLocationRelativeTo(null); // Center the window
-
+        setResizable(false);
 
         // Panel to hold components
         JPanel panel = new JPanel();
@@ -23,7 +23,7 @@ public class WelcomePage extends JFrame {
         JLabel logoLabel = new JLabel();
         try {
             // Load image from file
-            File imageFile = new File("src/Res/Logo.png");
+            File imageFile = new File("src/main/java/com/swift/app/Logo.png");
             Image img = ImageIO.read(imageFile);
             // Scale the image to fit within a reasonable size
             img = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);

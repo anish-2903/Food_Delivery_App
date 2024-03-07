@@ -111,13 +111,13 @@ public class InvoiceScreen extends JFrame {
     }
 
 
-
-    public static void main(String[] args) {
-        // Create and show the invoice screen
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new InvoiceScreen().setVisible(true);
-            }
-        });
-    }
+//
+//    public static void main(String[] args) {
+//        // Create and show the invoice screen
+//        SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//                new InvoiceScreen().setVisible(true);
+//            }
+//        });
+//    }
 }
