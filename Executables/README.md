@@ -21,7 +21,7 @@ This simple Food Delivery App allows you to place food orders and proceed to pay
    - Enter the following command and press Enter:
 
      ```bash
-     java -jar FoodDeliveryApp.jar
+     java -jar JAVA.jar
      ```
 
 5. **Enjoy the App**
