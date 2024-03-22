@@ -310,3 +310,5 @@ void Invoice() {
     printf("\nYOUR TOTAL BILL IS--> %d (including 18 percent GST)\n", total2);
     printf("\n THANK YOU!!! PLEASE COME AGAIN...");
 }
+
+
