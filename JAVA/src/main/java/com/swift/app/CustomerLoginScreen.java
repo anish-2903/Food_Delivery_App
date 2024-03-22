@@ -121,6 +121,9 @@ class Authentication {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
+            username = Encryption.encrypt(username);
+            password = Encryption.encrypt(password);
+
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("Username: " + username)) {
                     line = reader.readLine(); // Read next line (password)
@@ -141,11 +144,11 @@ class Authentication {
     // Method to save customer details to file
     private void saveCustomerData(String username, String password, String email, String phone, String address) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(CUSTOMER_DATA_FILE))) {
-            writer.println("Username: " + username);
-            writer.println("Password: " + password);
-            writer.println("Email: " + email);
+            writer.println("Username: " + Encryption.encrypt(username));
+            writer.println("Password: " + Encryption.encrypt(password));
+            writer.println("Email: " + Encryption.encrypt(email));
             writer.println("Phone Number: " + phone);
-            writer.println("Address: " + address);
+            writer.println("Address: " + Encryption.encrypt(address));
         } catch (IOException e) {
             e.printStackTrace();
         }

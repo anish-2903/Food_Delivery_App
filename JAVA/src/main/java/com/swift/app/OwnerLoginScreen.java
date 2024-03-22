@@ -70,7 +70,7 @@ public class OwnerLoginScreen extends JFrame {
                     JOptionPane.showMessageDialog(null, "Empty fields! Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     OwnerAuthentication authentication = new OwnerAuthentication();
-                    if (authentication.authenticate(username, password)) {
+                    if (authentication.authenticate(username, password, email, phone)) {
                         // Open AddMenuItemScreen after successful login
                         AddMenuItemScreen addMenuItemScreen = new AddMenuItemScreen();
                         addMenuItemScreen.setVisible(true);
@@ -101,17 +101,20 @@ public class OwnerLoginScreen extends JFrame {
 class OwnerAuthentication {
     private static final String OWNER_DATA_FILE = "owner_data.txt";
 
-    public boolean authenticate(String username, String password) {
+    public boolean authenticate(String username, String password, String email, String phone) {
         File file = new File(OWNER_DATA_FILE);
 
         if (!file.exists()) {
             // If the file does not exist, save the owner data and return true
-            saveOwnerData(username, password, "", "");
+            saveOwnerData(username, password, email, phone);
             return true;
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
+            username = Encryption.encrypt(username);
+            password = Encryption.encrypt(password);
+
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("Username: " + username)) {
                     line = reader.readLine(); // Read next line (password)
@@ -132,9 +135,9 @@ class OwnerAuthentication {
     // Method to save owner details to file
     private void saveOwnerData(String username, String password, String email, String phone) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(OWNER_DATA_FILE))) {
-            writer.println("Username: " + username);
-            writer.println("Password: " + password);
-            writer.println("Email: " + email);
+            writer.println("Username: " + Encryption.encrypt(username));
+            writer.println("Password: " + Encryption.encrypt(password));
+            writer.println("Email: " + Encryption.encrypt(email));
             writer.println("Phone Number: " + phone);
         } catch (IOException e) {
             e.printStackTrace();

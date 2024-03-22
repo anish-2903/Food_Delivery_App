@@ -18,6 +18,11 @@ public class InvoiceScreen extends JFrame {
         // Load customer information from file
         String[] customerInfo = loadCustomerInfo();
 
+        for (int i = 0; i < customerInfo.length; i++) {
+            customerInfo[i] = Encryption.decrypt(customerInfo[i]);
+        }
+
+
         // Load orders from file and calculate total bill with GST
         double total = calculateTotalBill();
 
