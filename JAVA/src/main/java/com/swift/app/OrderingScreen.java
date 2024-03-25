@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class OrderingScreen extends JFrame {
+    private static final String MENU_FILE = "menu_items.txt";
     private static final String MENU_ITEMS_FILE = "menu_items.txt";
     private static final String ORDER_FILE = "orders.txt";
 
@@ -128,50 +129,62 @@ public class OrderingScreen extends JFrame {
     }
 
     // Method to load menu items from file into MenuLinkedList
+// Method to load menu items from file into MenuLinkedList
     private MenuLinkedList loadMenuItems() {
         MenuLinkedList menuList = new MenuLinkedList();
-        try {
-            File menuFile = new File(MENU_ITEMS_FILE);
-            if (!menuFile.exists()) {
-                // Create a default menu items file with some entries
+        File menuFile = new File(MENU_FILE);
+        if (menuFile.exists()) {
+            try {
+                Scanner scanner = new Scanner(menuFile);
+                while (scanner.hasNextLine()) {
+                    int serialId = Integer.parseInt(scanner.nextLine().split(": ")[1]);
+                    String name = scanner.nextLine().split(": ")[1];
+                    double price = Double.parseDouble(scanner.nextLine().split(": ")[1]);
+
+                    menuList.insert(serialId, name, price);
+
+                    // Skip the empty line between menu items
+                    scanner.nextLine();
+                }
+                scanner.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null; // Return null on error
+            }
+        } else {
+            // If menu file doesn't exist, create default menu items
+            try {
                 createDefaultMenuItemsFile();
+                return loadMenuItems(); // Load menu items recursively after creating the file
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null; // Return null on error
             }
-            Scanner scanner = new Scanner(menuFile);
-            while (scanner.hasNextLine()) {
-                int serialId = Integer.parseInt(scanner.nextLine().split(": ")[1]);
-                String name = scanner.nextLine().split(": ")[1];
-                double price = Double.parseDouble(scanner.nextLine().split(": ")[1]);
-
-                menuList.insert(serialId, name, price);
-
-                // Skip the empty line between menu items
-                scanner.nextLine();
-            }
-            scanner.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null; // Return null on error
         }
         return menuList;
     }
 
     // Method to create a default menu items file with some entries
     private void createDefaultMenuItemsFile() throws IOException {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(MENU_ITEMS_FILE))) {
-            writer.println("Serial ID: 1");
-            writer.println("Name: Burger");
-            writer.println("Price: 40.0");
-            writer.println(); //
+        File menuFile = new File(MENU_FILE);
 
-            writer.println("Serial ID: 2");
-            writer.println("Name: Cake");
-            writer.println("Price: 400.0");
-            writer.println(); //
+        if (!menuFile.exists()) {
+            try (PrintWriter writer = new PrintWriter(new FileWriter(MENU_ITEMS_FILE))) {
+                writer.println("Serial ID: 1");
+                writer.println("Name: Burger");
+                writer.println("Price: 40.0");
+                writer.println(); //
 
-            writer.println("Serial ID: 3");
-            writer.println("Name: Fried Rice");
-            writer.println("Price: 80.0");
-            writer.println(); //
+                writer.println("Serial ID: 2");
+                writer.println("Name: Cake");
+                writer.println("Price: 400.0");
+                writer.println(); //
+
+                writer.println("Serial ID: 3");
+                writer.println("Name: Fried Rice");
+                writer.println("Price: 80.0");
+                writer.println(); //
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 package main.java.com.swift.app;
 
-import java.io.*;
-import java.util.*;
+//import java.io.*;
+//import java.util.*;
 
 class MenuItem {
     int serialId;

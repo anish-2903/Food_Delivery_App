@@ -22,6 +22,7 @@ public class MainScreen extends JFrame {
 
         // Welcome message label
         JLabel welcomeLabel = new JLabel("<html><div style='text-align: center;'><font color='#FF0000'><b>WELCOME TO THE FOOD DELIVERY SYSTEM</b></font></div></html>");
+        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
         welcomePanel.add(welcomeLabel);
 
