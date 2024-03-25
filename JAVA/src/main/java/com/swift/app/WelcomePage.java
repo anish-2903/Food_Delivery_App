@@ -24,7 +24,6 @@ public class WelcomePage extends JFrame {
         JLabel logoLabel = new JLabel();
         // Load image from classpath resource
         try {
-
             Image img = ImageIO.read(Objects.requireNonNull(getClass().getResource("Logo.png")));
 
             img = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
