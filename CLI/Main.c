@@ -203,7 +203,8 @@ void Choice() {
 void ByHotel() {
     printf("\033[0;32m");
     int n, choice;
-    printf("\n1.Hotel Shreyan\n2.Tasty\n3.Tris Planet\n4.Lets Eat\n5.Dhakeshwari Resturant\n6.Go to the choice \n7.Exit");
+    printf("\n1.Hotel Shreyan\n2.Tasty\n3.Tris Planet\n");
+    printf("4.Lets Eat\n5.Dhakeshwari Resturant\n6.Go to the choice \n7.Exit");
     printf("\nSelect the hotel name --> ");
     scanf("%d", &choice);
     switch (choice) {
