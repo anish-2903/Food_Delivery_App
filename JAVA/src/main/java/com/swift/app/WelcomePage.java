@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 
 public class WelcomePage extends JFrame {
@@ -21,16 +22,17 @@ public class WelcomePage extends JFrame {
 
         // Add image section for logo
         JLabel logoLabel = new JLabel();
+        // Load image from classpath resource
         try {
-            // Load image from file
-            File imageFile = new File("src/main/java/com/swift/app/Logo.png");
-            Image img = ImageIO.read(imageFile);
-            // Scale the image to fit within a reasonable size
+
+            Image img = ImageIO.read(Objects.requireNonNull(getClass().getResource("Logo.png")));
+
             img = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             logoLabel.setIcon(new ImageIcon(img));
         } catch (Exception ex) {
             System.out.println("Error loading image: " + ex.getMessage());
         }
+
         logoLabel.setHorizontalAlignment(JLabel.CENTER);
         panel.add(logoLabel, BorderLayout.CENTER);
 
